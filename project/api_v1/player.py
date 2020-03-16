@@ -7,6 +7,11 @@ from ..models import Data
 
 @api.route("/player/<player_id>")
 def player_info(player_id):
+    """
+    find the information of a player
+    :param player_id: the id of the player
+    :return: a json file contains the info of the player
+    """
     player = Data.find_player_info(player_id)
     if not player:
         res = {"errno": 404, "errmsg": "player not found"}
