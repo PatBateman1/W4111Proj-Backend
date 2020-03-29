@@ -3,6 +3,7 @@
 from . import api
 from flask import jsonify
 from ..models import Data
+from flask import request
 
 
 @api.route("/player/<player_id>")
@@ -22,5 +23,44 @@ def player_info(player_id):
                "height": player[0][2],
                "weight": player[0][3],
                "pos": player[0][4],
-               "dob": player[0][5]}
+               "dob": player[0][5],
+               "image": player[0][6]}
     return jsonify(res)
+
+
+@api.route("/stats/<player_id>")
+def player_stats(player_id):
+    """
+    find stats of a player
+    :param player_id: the id of the player
+    :return: based on the page parameter in the GET method, return a json file
+    contains the part of the stats of that player
+    """
+    page = int(request.args.get("page"))
+    stats = Data.find_stats_by_player(player_id)
+    if page * 20 >= len(stats):
+        return jsonify({"err": "out of range"})
+    else:
+        stats.sort(key=lambda x: x[1], reverse=True)
+        print(stats)
+        res = stats[page * 20:page * 20 + 20] if page * 20 + 20 <= len(stats) else stats[page * 20:]
+        res = [
+            {
+                "player_id": r[0],
+                "date": r[1],
+                "team1_id": r[2],
+                "team2_id": r[3],
+                "scores": r[4],
+                "rebounds": r[5],
+                "assists": r[6],
+                "steals": r[7],
+                "blocks": r[8],
+                "turnovers": r[9],
+                "three_made": r[10],
+                "three_hit": r[11],
+                "made": r[12],
+                "hit": r[13],
+                "time": r[14]
+            } for r in res
+        ]
+        return jsonify(res)

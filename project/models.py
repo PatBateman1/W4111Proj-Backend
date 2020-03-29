@@ -12,9 +12,9 @@ class Data:
 
     @staticmethod
     def find_players_in_one_team(team_id):
-        players = db.execute(f"""SELECT players.name, contracts.salary, players.id
-                                FROM contracts, players
-                                WHERE contracts.team_id = {team_id} AND contracts.player_id = players.id""")
+        players = db.execute(f"""SELECT players.name, players.image, players.id
+                                 FROM contracts, players
+                                 WHERE contracts.team_id = {team_id} AND contracts.player_id = players.id""")
         return players.fetchall()
 
     @staticmethod
@@ -24,3 +24,11 @@ class Data:
                                 WHERE id = {player_id}""")
         return player.fetchall()
 
+    @staticmethod
+    def find_stats_by_player(player_id):
+        stats = db.execute(f"""SELECT player_id, date, team1_id, team2_id, scores, rebounds, assists, steals, 
+                                    blocks, turnovers, three_pointers_made, three_hit, made, hit, times
+                               FROM stats, games
+                               WHERE stats.player_id = {player_id} AND stats.game_id = games.id
+                    """)
+        return stats.fetchall()

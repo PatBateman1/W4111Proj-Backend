@@ -3,6 +3,7 @@
 from flask import Flask
 from config import Config
 from sqlalchemy import create_engine
+from flask_cors import CORS
 # from flask_session import Session
 # from flask_wtf import CSRFProtect
 
@@ -21,6 +22,9 @@ def create_app():
 
     app = Flask(__name__)
     app.config.from_object(Config)
+
+    # allow cors request
+    CORS(app, supports_credentials=True)
 
     # register the blueprint
     from project import api_v1
