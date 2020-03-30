@@ -27,8 +27,15 @@ class Data:
     @staticmethod
     def find_stats_by_player(player_id):
         stats = db.execute(f"""SELECT player_id, date, team1_id, team2_id, scores, rebounds, assists, steals, 
-                                    blocks, turnovers, three_pointers_made, three_hit, made, hit, times
+                                    blocks, turnovers, three_pointers_made, three_hit, made, hit, times, games.id
                                FROM stats, games
                                WHERE stats.player_id = {player_id} AND stats.game_id = games.id
                     """)
+        return stats.fetchall()
+
+    @staticmethod
+    def find_stats_by_game_id(game_id):
+        stats = db.execute(f"""SELECT name, scores, rebounds, assists, steals, blocks, turnovers, three_pointers_made, three_hit, made, hit, times
+                               FROM stats, players
+                               WHERE stats.player_id = players.id AND stats.game_id = {game_id}""")
         return stats.fetchall()

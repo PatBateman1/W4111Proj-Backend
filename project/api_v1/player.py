@@ -4,6 +4,7 @@ from . import api
 from flask import jsonify
 from ..models import Data
 from flask import request
+from time import strftime
 
 
 @api.route("/player/<player_id>")
@@ -23,7 +24,7 @@ def player_info(player_id):
                "height": player[0][2],
                "weight": player[0][3],
                "pos": player[0][4],
-               "dob": player[0][5],
+               "dob": f"{player[0][5].month}-{player[0][5].day}-{player[0][5].year}",
                "image": player[0][6]}
     return jsonify(res)
 
@@ -42,12 +43,12 @@ def player_stats(player_id):
         return jsonify({"err": "out of range"})
     else:
         stats.sort(key=lambda x: x[1], reverse=True)
-        print(stats)
+
         res = stats[page * 20:page * 20 + 20] if page * 20 + 20 <= len(stats) else stats[page * 20:]
         res = [
             {
                 "player_id": r[0],
-                "date": r[1],
+                "date": f"{r[1].month}-{r[1].day}-{r[1].year}",
                 "team1_id": r[2],
                 "team2_id": r[3],
                 "scores": r[4],
@@ -60,7 +61,8 @@ def player_stats(player_id):
                 "three_hit": r[11],
                 "made": r[12],
                 "hit": r[13],
-                "time": r[14]
+                "time": r[14],
+                "game_id": r[15]
             } for r in res
         ]
         return jsonify(res)

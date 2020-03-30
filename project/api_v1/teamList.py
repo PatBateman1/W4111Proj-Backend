@@ -17,6 +17,17 @@ def team_list():
     return jsonify(res)
 
 
+@api.route("/teamMap")
+def team_map():
+    """
+    return a map that map the id of the team to the team's name
+    :return: a json file maps id to name
+    """
+    teams = Data.find_all_teams()
+    res = {t[0]: t[-1] for t in teams}
+    return jsonify(res)
+
+
 @api.route("/team/<team_id>")
 def team(team_id):
     """
