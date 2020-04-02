@@ -39,3 +39,24 @@ class Data:
                                FROM stats, players
                                WHERE stats.player_id = players.id AND stats.game_id = {game_id}""")
         return stats.fetchall()
+
+    @staticmethod
+    def find_game_info_by_game_id(game_id):
+        info = db.execute(f"""SELECT *
+                              FROM games
+                              WHERE id = {game_id}""")
+        return info.fetchall()
+
+    @staticmethod
+    def find_uer_by_username(username):
+        user = db.execute(f"""SELECT *
+                              FROM users
+                              WHERE username = '{username}'""")
+        return user.fetchall()
+
+    @staticmethod
+    def save_user_to_db(username, password):
+        user = db.execute(f"""INSERT INTO users (id, username, password) 
+                              VALUES (DEFAULT, '{username}', '{password}')""")
+        return
+

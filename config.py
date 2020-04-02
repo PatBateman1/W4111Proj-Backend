@@ -10,3 +10,6 @@ class Config(object):
 
     # database
     DATABASE_SQLALCHEMY_URI = "postgresql://postgres:zhu1996122@localhost/project"
+
+    # frontend
+    FRONT_END = "http://127.0.0.1:3000/"
