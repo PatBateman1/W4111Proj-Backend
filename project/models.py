@@ -35,7 +35,7 @@ class Data:
 
     @staticmethod
     def find_stats_by_game_id(game_id):
-        stats = db.execute(f"""SELECT name, scores, rebounds, assists, steals, blocks, turnovers, three_pointers_made, three_hit, made, hit, times
+        stats = db.execute(f"""SELECT name, scores, rebounds, assists, steals, blocks, turnovers, three_pointers_made, three_hit, made, hit, times, players.id
                                FROM stats, players
                                WHERE stats.player_id = players.id AND stats.game_id = {game_id}""")
         return stats.fetchall()
@@ -60,3 +60,15 @@ class Data:
                               VALUES (DEFAULT, '{username}', '{password}')""")
         return
 
+    @staticmethod
+    def find_vote_by_player_id_and_game_id(player_id, game_id, user_id):
+        vote = db.execute(f"""SELECT *
+                              FROM votes
+                              WHERE player_id = {player_id} AND game_id = {game_id} AND user_id = {user_id}""")
+        return vote.fetchall()
+
+    @staticmethod
+    def save_vote_info_to_db(player_id, game_id, user_id):
+        vote = db.execute(f"""INSERT INTO public.votes (id, game_id, player_id, user_id) 
+                              VALUES (DEFAULT, {game_id}, {player_id}, {user_id})""")
+        return

@@ -1,7 +1,7 @@
 # coding:utf-8
 
 from . import api
-from flask import request, jsonify
+from flask import request, jsonify, session
 from ..models import Data
 
 
@@ -25,4 +25,9 @@ def login():
     if password != user[0][2]:
         return jsonify({"err": "password is not correct"})
 
-    return jsonify({"success": "successfully logged in"})
+    # save the user information to session
+    session["username"] = username
+
+    return jsonify({"success": "successfully logged in", "user_id": user[0][0]})
+
+
