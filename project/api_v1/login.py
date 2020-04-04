@@ -8,7 +8,7 @@ from ..models import Data
 @api.route("/login", methods=["POST"])
 def login():
     """
-
+    check whether username is valid and whether username and password match
     :return:
     """
 
@@ -18,7 +18,7 @@ def login():
     password = req_dict.get("password")
 
     # verify the user information
-    user = Data.find_uer_by_username(username)
+    user = Data.find_user_by_username(username)
     if not user:
         return jsonify({"err": "username does not exist"})
 
@@ -30,4 +30,9 @@ def login():
 
     return jsonify({"success": "successfully logged in", "user_id": user[0][0]})
 
+
+@api.route("/user/<user_id>")
+def get_user_name(user_id):
+    user = Data.find_user_by_id(user_id)
+    return jsonify({"username": user[0][1]})
 

@@ -1,7 +1,7 @@
 # coding:utf-8
 
 from . import db
-
+import sqlalchemy
 
 class Data:
     @staticmethod
@@ -48,10 +48,17 @@ class Data:
         return info.fetchall()
 
     @staticmethod
-    def find_uer_by_username(username):
+    def find_user_by_username(username):
         user = db.execute(f"""SELECT *
                               FROM users
                               WHERE username = '{username}'""")
+        return user.fetchall()
+
+    @staticmethod
+    def find_user_by_id(user_id):
+        user = db.execute(f"""SELECT *
+                                  FROM users
+                                  WHERE id = {user_id}""")
         return user.fetchall()
 
     @staticmethod
@@ -72,3 +79,11 @@ class Data:
         vote = db.execute(f"""INSERT INTO public.votes (id, game_id, player_id, user_id) 
                               VALUES (DEFAULT, {game_id}, {player_id}, {user_id})""")
         return
+
+    @staticmethod
+    def find_player_by_name(pattern):
+        sql = sqlalchemy.text(f"""SELECT players.id, players.name, players.image 
+                                 FROM players 
+                                 WHERE players.name LIKE '{pattern}'""")
+        players = db.execute(sql)
+        return players.fetchall()

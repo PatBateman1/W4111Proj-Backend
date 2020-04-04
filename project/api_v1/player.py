@@ -66,3 +66,13 @@ def player_stats(player_id):
             } for r in res
         ]
         return jsonify(res)
+
+
+@api.route("/player/name/<player_name>")
+def search_player_by_name(player_name):
+    pattern = "%" + player_name + "%"
+    players = Data.find_player_by_name(pattern)
+
+    res = [{"id": p[0], "name": p[1], "image": p[2]} for p in players]
+
+    return jsonify(res)
