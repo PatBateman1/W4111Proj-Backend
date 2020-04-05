@@ -76,7 +76,7 @@ class Data:
 
     @staticmethod
     def save_vote_info_to_db(player_id, game_id, user_id):
-        vote = db.execute(f"""INSERT INTO public.votes (id, game_id, player_id, user_id) 
+        vote = db.execute(f"""INSERT INTO votes (id, game_id, player_id, user_id) 
                               VALUES (DEFAULT, {game_id}, {player_id}, {user_id})""")
         return
 
@@ -87,3 +87,22 @@ class Data:
                                  WHERE players.name LIKE '{pattern}'""")
         players = db.execute(sql)
         return players.fetchall()
+
+    @staticmethod
+    def find_vote_by_game_id(game_id):
+        votes = db.execute(f"""SELECT *
+                               FROM votes
+                               WHERE game_id = {game_id} """)
+        return votes.fetchall()
+
+    @staticmethod
+    def find_games_by_year_and_month(year, month):
+        now = f"{year}-{month}-01"
+        if int(month) == 12:
+            next = f"{int(year) + 1}-01-01"
+        else:
+            next = f"{year}-{int(month) + 1}-01"
+        games = db.execute(f"""SELECT *
+                               FROM games
+                               WHERE date >= '{now}' AND date <= '{next}'""")
+        return games.fetchall()

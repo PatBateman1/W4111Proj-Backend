@@ -4,7 +4,6 @@ from . import api
 from flask import jsonify
 from ..models import Data
 from flask import request
-from time import strftime
 
 
 @api.route("/player/<player_id>")

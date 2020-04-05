@@ -3,6 +3,7 @@
 from . import api
 from flask import jsonify, request
 from ..models import Data
+import datetime
 
 
 @api.route("/games/gameStats/<game_id>")
@@ -77,3 +78,38 @@ def vote_for_player():
     Data.save_vote_info_to_db(player_id, game_id, user_id)
 
     return jsonify({"success": "successfully saved vote to database"})
+
+
+@api.route("/games", methods=["POST"])
+def find_games_by_date():
+    """
+    find games in a month
+    :return: a json file contains all the games in that month
+    """
+
+    # get year and month from the request body
+    req_dict = request.get_json()
+    year = int(req_dict.get("year"))
+    month = int(req_dict.get("month"))
+
+    games = Data.find_games_by_year_and_month(year, month)
+
+    # check if there exists game in that month
+    if not games:
+        return jsonify([])
+    else:
+        games.sort(key=lambda x: x[3])
+        res, prev = [{i: [] for i in range(7)}], games[0][3]
+        for i in range(len(games)):
+            game = games[i]
+            if game[3].weekday() == 6 and game[3] != prev:
+                res.append({i: [] for i in range(7)})
+
+            weekday = game[3].weekday()
+            temp = [*game]
+            temp[3] = f"{game[3].month}-{game[3].day}-{game[3].year}"
+            res[-1][weekday].append(temp)
+
+            prev = game[3]
+
+        return jsonify(res)

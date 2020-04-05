@@ -9,7 +9,7 @@ class Config(object):
     SECRET_KEY = "W4111project"
 
     # database
-    DATABASE_SQLALCHEMY_URI = "postgresql://postgres:zhu1996122@localhost/project"
+    DATABASE_SQLALCHEMY_URI = "postgresql://zz2700:zhu1996122@35.231.103.173/proj1part2"
 
     # frontend
     FRONT_END = "http://127.0.0.1:3000/"
