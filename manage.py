@@ -5,7 +5,9 @@ import click
 
 app = create_app()
 
+# entry point of the application
 if __name__ == "__main__":
+
     @click.command()
     @click.option('--debug', is_flag=True)
     @click.option('--threaded', is_flag=True)
@@ -16,12 +18,11 @@ if __name__ == "__main__":
         This function handles command line parameters.
         Run the server using:
 
-            python server.py
+            python3 manage.py
 
         Show the help text using:
 
-            python server.py --help
-
+            python3 manage.py --help
         """
 
         HOST, PORT = host, port

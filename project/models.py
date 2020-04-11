@@ -3,7 +3,11 @@
 from . import db
 import sqlalchemy
 
+
 class Data:
+    """
+    a class whose contains all sql queries in its static methods
+    """
     @staticmethod
     def find_all_teams():
         teams = db.execute("""SELECT * 

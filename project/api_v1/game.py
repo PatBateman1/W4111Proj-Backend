@@ -36,6 +36,11 @@ def find_stats_by_game_id(game_id):
 
 @api.route("/games/gameInfo/<game_id>")
 def find_game_info_by_team_id(game_id):
+    """
+    find a game's information by its id
+    :param game_id: the id of the game
+    :return: a json file contains the game's information
+    """
     info = Data.find_game_info_by_game_id(game_id)
     res = {
         "team1_id": info[0][1],
@@ -94,7 +99,7 @@ def find_games_by_date():
 
     games = Data.find_games_by_year_and_month(year, month)
 
-    # check if there exists game in that month
+    # check if there exists game in that month, if not, return an empty json file
     if not games:
         return jsonify([])
     else:

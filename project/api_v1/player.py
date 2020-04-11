@@ -69,6 +69,11 @@ def player_stats(player_id):
 
 @api.route("/player/name/<player_name>")
 def search_player_by_name(player_name):
+    """
+    find all players whose name match the pattern
+    :param player_name: full name or part of the name of players
+    :return: all names that match the pattern
+    """
     pattern = "%" + player_name + "%"
     players = Data.find_player_by_name(pattern)
 

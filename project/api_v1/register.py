@@ -22,7 +22,7 @@ def register():
         return jsonify({"err": "params not complete"})
 
     # verify if the username exists
-    user = Data.find_uer_by_username(username)
+    user = Data.find_user_by_username(username)
     if user:
         return jsonify({"err": "username has been used"})
 
@@ -30,7 +30,7 @@ def register():
     Data.save_user_to_db(username, password)
 
     # save user information to session
-    user_id = Data.find_uer_by_username(username)[0][0]
+    user_id = Data.find_user_by_username(username)[0][0]
     session["user_id"] = user_id
 
     return jsonify({"success": "successfully save user info into the database", 'user_id': user_id})

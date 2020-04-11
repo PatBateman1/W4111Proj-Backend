@@ -9,7 +9,7 @@ from ..models import Data
 def login():
     """
     check whether username is valid and whether username and password match
-    :return:
+    :return: a json file
     """
 
     # get the json date form request which contains the username, password
@@ -33,6 +33,11 @@ def login():
 
 @api.route("/user/<user_id>")
 def get_user_name(user_id):
+    """
+    find a user's information by his/her id
+    :param user_id: id of the user
+    :return: a json file contains the user's information
+    """
     user = Data.find_user_by_id(user_id)
     return jsonify({"username": user[0][1]})
 
