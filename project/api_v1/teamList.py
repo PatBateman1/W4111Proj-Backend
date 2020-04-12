@@ -48,4 +48,9 @@ def coach(team_id):
     :return: a json file contains the coach's information
     """
     coaches = Data.find_coach_by_team_id(team_id)
-    return jsonify(coaches[0])
+    res = {
+        "id": coaches[0][0],
+        "name": coaches[0][1],
+        "age": coaches[0][2]
+    }
+    return jsonify(res)
