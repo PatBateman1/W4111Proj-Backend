@@ -38,3 +38,14 @@ def team(team_id):
     players = Data.find_players_in_one_team(team_id)
     res = [{"id": players[i][2], "name": players[i][0], "image": players[i][1]} for i in range(len(players))]
     return jsonify(res)
+
+
+@api.route("/coach/<team_id>")
+def coach(team_id):
+    """
+    find coach information by id
+    :param team_id: id of a team
+    :return: a json file contains the coach's information
+    """
+    coaches = Data.find_coach_by_team_id(team_id)
+    return jsonify(coaches[0])

@@ -110,3 +110,11 @@ class Data:
                                FROM games
                                WHERE date >= '{now}' AND date <= '{next}'""")
         return games.fetchall()
+
+    @staticmethod
+    def find_coach_by_team_id(team_id):
+        coach = db.execute(f"""SELECT coaches.id, coaches.name, coaches.age
+                               FROM coaches, contracts
+                               WHERE contracts.team_id = {team_id} AND contracts.player_id = coaches.id""")
+        return coach.fetchall()
+
